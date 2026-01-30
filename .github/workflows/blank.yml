@@ -1,0 +1,24 @@
+name: CI with Docker
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Show workspace files (debug)
+      run: |
+        pwd
+        ls -la
+
+    - name: Build Docker image
+      run: docker build -t health-app:latest .
+
+    - name: Run Docker container
+      run: docker run -d -p 8080:80 health-app:latest
